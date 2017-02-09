@@ -1,4 +1,4 @@
-
+ 
 module.exports = function (options) {
 
     var _sampleOptions = {
@@ -78,6 +78,15 @@ module.exports = function (options) {
 
     function setPixel(pixel) {
         if (!validatePixel(pixel)) { return {error: ["pixel is not valid"]}; }
+
+        var existing = pixels.filter(function(item) {
+           return item.x === pixel.x && item.y === pixel.y;
+        });
+
+        if (existing)
+           existing.color = pixel.color;
+        else
+         pixels.push(pixel);
     };
 
     function setList() {

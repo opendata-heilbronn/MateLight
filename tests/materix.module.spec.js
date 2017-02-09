@@ -33,5 +33,13 @@ describe('Materix Module', function () {
       var pixel = new Pixel(options);
 
       var result = materix.setPixel(pixel);
+
+      console.log(result);
+
+      var pixels = materix.getPixels();
+
+      console.log(JSON.stringify(pixels));
+
+      expect(pixel.length > 0).to.be.true;
    });
 });
