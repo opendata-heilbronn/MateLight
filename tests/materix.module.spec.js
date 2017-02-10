@@ -36,13 +36,12 @@ describe('Materix Module', function () {
 
         expect(result.success).to.be.true;
 
-        console.log(result);
+        //console.log(result);
 
         var pixels = materix.getPixels();
 
-        console.log(JSON.stringify(pixels));
+        //console.log(JSON.stringify(pixels));
 
-        //expect(pixels.length == width*height*20).to.be.true;
         expect(pixels).to.have.lengthOf(width * height * 20);
         var isPixel = JSON.stringify(pixels[0]);
         var shouldPixel = JSON.stringify([options.color.red, options.color.green, options.color.blue]);

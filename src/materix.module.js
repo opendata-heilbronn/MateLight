@@ -62,7 +62,6 @@ module.exports = function (options) {
         var incrementer = -1;
         for(var i = 0; i < width*height; i++) {
             boxMap[i] = {position: {x: x, y:y}, orientation: config.orientation, rotation: rot};
-            console.log(boxMap[i]);
             x += incrementer;
             if(x >= width) {
                 rot = "normal";
