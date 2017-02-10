@@ -2,13 +2,15 @@
 module.exports = function (options) {
 
     var _sampleOptions = {
-        width: 2,
+        width: 2,   //in boxes
         height: 2,
-        pattern: "horizontalSerpentine", // verticalSerpentine, mapped
-        map: [
-            [3,4],
-            [2,1]
-        ]
+        orientation: "landscape", //orientation of boxes
+        pattern: "horizontalSerpentine", // verticalSerpentine, mapped (box connection pattern)
+        start: "right", //
+        /*map: [ //will be generated
+            [2,3],
+            [1,0]
+        ]*/
     };
 
     var _sampleBox = {
@@ -34,46 +36,62 @@ module.exports = function (options) {
     };
 
     var pixels = [];
-    var width = 0;
-    var height = 0;
-
-    var validatePixel = function (pixel) {
-        if (pixel &&
-            pixel.position &&
-            pixel.position.x &&
-            pixel.position.y &&
-            pixel.color &&
-            pixel.color.red &&
-            pixel.color.green &&
-            pixel.color.blue) {
-            return true;
-        }
-
-        return false;
-    };
+    var boxMap = [];
+    var width = 0, height = 0;
+    var pixelWidth = 0, pixelHeight = 0;
 
     var contructor = function (config) {
-        if (!config.sizeX) throw new Error("Missing sizeX in config.");
-        if (!config.sizeY) throw new Error("Missing sizeY in config.");
+        if (!config.width) throw new Error("Missing width in config.");
+        if (!config.height) throw new Error("Missing height in config.");
         if (!config.orientation) throw new Error("Missing orientation in config.");
-        
-        if(config.orientation == "landscape") {
-            if (config.sizeX % 5 != 0) throw new Error("Using orientation=landscape sizeX must be a multiple of 5.");
-            if (config.sizeY % 4 != 0) throw new Error("Using orientation=landscape sizeY must be a multiple of 4.");
+
+        width = config.width;
+        height = config.height;
+        pixelWidth = config.orientation == "landscape" ? config.width * 5 : config.width * 4; //generate pixelWidth (x) & pixelHeight (y)
+        pixelHeight = config.orientation == "landscape" ? config.height * 4 : config.height * 5;
+
+        //fill pixel array with black
+        for(var i = 0; i < pixelWidth*pixelHeight; i++) {
+            pixels[i] = [0, 0, 0];
         }
 
-        if(config.orientation == "portait") {
-            if (config.sizeX % 4 != 0) throw new Error("Using orientation=landscape sizeX must be a multiple of 4.");
-            if (config.sizeY % 5 != 0) throw new Error("Using orientation=landscape sizeY must be a multiple of 5.");
-        }
+        //generate boxMap
+        var y = height - 1;
+        var x = 0;
+        var rot = "normal";
+        var incrementer = 1;
+        for(var i = 0; i < width*height; i++) { //TODO: DEBUG THIS!!!
+            boxMap[i] = {x: x, y:y, orientation: config.orientation, rotation: rot};
+            console.log(i, x, y);
+            x += incrementer;
+            if(x >= width) {
+                rot = "inverse";
+                incrementer = -1;
+                y--;
+            }
+            else if(x <= 0) {
+                rot = "normal";
+                incrementer = 1;
+                y--;
+            }
 
-        width = config.sizeX;
-        height = config.sizeY;
+        }
     };
 
 
     function send() {
         
+    };
+
+    var validatePixel = function (pixel) {
+        return !!(pixel != undefined &&
+        pixel.position != undefined &&
+        pixel.position.x != undefined &&
+        pixel.position.y != undefined &&
+        pixel.color != undefined &&
+        pixel.color.red != undefined &&
+        pixel.color.green != undefined &&
+        pixel.color.blue != undefined);
     };
 
     function setPixel(pixel) {

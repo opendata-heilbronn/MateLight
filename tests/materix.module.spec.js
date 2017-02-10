@@ -5,12 +5,12 @@ const Pixel = require('../src/models/pixel.model');
 
 describe('Materix Module', function () {
    var materix = null;
-   var width = 5;
-   var height = 4;
+   var width = 2;
+   var height = 2;
 
 
    beforeEach(function () {
-      materix = new Materix({ sizeX: width, sizeY: height, orientation: "landscape" });
+      materix = new Materix({ width: width, height: height, orientation: "landscape" });
    });
 
    it('should have an instance', function () {
