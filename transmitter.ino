@@ -1,5 +1,5 @@
 unsigned long lastTransmit = 0;
-int refreshTime = 30;
+int refreshTime = 3000;
 unsigned char colors[24] = {
     0,   0,   0,
     0,   0, 255,
@@ -13,7 +13,7 @@ unsigned char colors[24] = {
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(1000000);
 }
 
 byte colCtr=0;
@@ -21,9 +21,8 @@ byte colCtr=0;
 byte mode = 2; //1=strobo, 2=constantColors, 
 
 void loop() {
-  if(millis() - lastTransmit >= refreshTime)
+  if(micros() - lastTransmit >= refreshTime)
   {
-    lastTransmit = millis();
     for (int i = 0; i < 480; i++) {
       switch(mode)
       {
@@ -38,6 +37,7 @@ void loop() {
     colCtr++;
     if(colCtr > 2)
       colCtr = 0;
+    lastTransmit = micros();
   }
   //delay(refreshTime);
 }
