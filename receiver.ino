@@ -7,11 +7,12 @@ unsigned long lastPacket=0;
 
 const int NUM_LEDS = 20;
 const int DATA_PIN = 2;
+const int timeout = 500;
 
 CRGB leds[NUM_LEDS];
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(1000000);
   FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);
 }
 
@@ -29,7 +30,7 @@ void parseBuffer()
 
 void loop() {
   while (Serial.available()) {
-    lastPacket = millis();
+    lastPacket = micros();
     unsigned char incomingByte = Serial.read();
     if(inCounter < 60)
     {
@@ -42,7 +43,7 @@ void loop() {
     }
   }
 
-  if(millis() - lastPacket > 5 && inCounter > 0)
+  if(micros() - lastPacket > timeout && inCounter > 0)
   {
     inCounter = 0;
     parseBuffer();
