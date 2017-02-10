@@ -37,18 +37,25 @@ module.exports = function (options) {
 
     var pixels = [];
     var boxMap = [];
+    var ledMap = [];
     var width = 0, height = 0;
     var pixelWidth = 0, pixelHeight = 0;
+    const serpentine = [
+        15, 16, 17, 18, 19,
+        14, 13, 12, 11, 10,
+         5,  6,  7,  8,  9,
+         4,  3,  2,  1,  0
+    ];
 
-    var contructor = function (config) {
+    var constructor = function (config) {
         if (!config.width) throw new Error("Missing width in config.");
         if (!config.height) throw new Error("Missing height in config.");
         if (!config.orientation) throw new Error("Missing orientation in config.");
 
         width = config.width;
         height = config.height;
-        pixelWidth = config.orientation == "landscape" ? config.width * 5 : config.width * 4; //generate pixelWidth (x) & pixelHeight (y)
-        pixelHeight = config.orientation == "landscape" ? config.height * 4 : config.height * 5;
+        pixelWidth = (config.orientation == "landscape") ? config.width * 5 : config.width * 4; //generate pixelWidth (x) & pixelHeight (y)
+        pixelHeight = (config.orientation == "landscape") ? config.height * 4 : config.height * 5;
 
         //fill pixel array with black
         for(var i = 0; i < pixelWidth*pixelHeight; i++) {
@@ -76,7 +83,24 @@ module.exports = function (options) {
                 y--;
             }
         }
+
+        //generate ledMap
+
+        for(var box = 0; box < boxMap.length; i++) {
+            //generate serpentine map (or load from constant)
+            //and use offset for led
+            var pattern;
+            ledMap[box*20];
+        }
     };
+
+    function flatToXY(flatVal) {
+        return {x: flatVal % width, y: flatVal / width};
+    }
+
+    function xyToFlat(x, y) {
+        return y*width+x;
+    }
 
 
     function send() {
@@ -113,7 +137,7 @@ module.exports = function (options) {
     function setArray() {
     };
 
-    contructor(options);
+    constructor(options);
 
     return {
         send: send,
