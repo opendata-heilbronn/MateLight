@@ -80,7 +80,8 @@ module.exports = function (options) {
 
 
     function send() {
-        
+        //send data out to hardware
+        //TODO: crunch data (pixel data to led data with respect to cabling)
     };
 
 
@@ -98,11 +99,11 @@ module.exports = function (options) {
 
 
     function setPixel(pixel) {
-        if (!validatePixel(pixel)) { return {success: false, error: ["pixel is not valid"]}; }
+        if (!validatePixel(pixel))
+            throw new Error('pixel is not valid');
 
         var arrIndex = (pixel.position.y * width) + pixel.position.x;
         pixels[arrIndex] = [pixel.color.red, pixel.color.green, pixel.color.blue];
-        return {success: true};
     };
 
     function setList() {

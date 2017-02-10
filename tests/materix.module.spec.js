@@ -32,9 +32,11 @@ describe('Materix Module', function () {
         };
         var pixel = new Pixel(options);
 
-        var result = materix.setPixel(pixel);
+       /* var result = materix.setPixel(pixel);
 
-        expect(result.success).to.be.true;
+        expect(result.success).to.be.true;*/
+
+        expect(materix.setPixel.bind(materix, pixel)).to.not.throw('pixel is not valid')
 
         //console.log(result);
 
