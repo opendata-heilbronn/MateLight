@@ -57,24 +57,25 @@ module.exports = function (options) {
 
         //generate boxMap
         var y = height - 1;
-        var x = 0;
+        var x = width - 1;
         var rot = "normal";
-        var incrementer = 1;
-        for(var i = 0; i < width*height; i++) { //TODO: DEBUG THIS!!!
-            boxMap[i] = {x: x, y:y, orientation: config.orientation, rotation: rot};
-            console.log(i, x, y);
+        var incrementer = -1;
+        for(var i = 0; i < width*height; i++) {
+            boxMap[i] = {position: {x: x, y:y}, orientation: config.orientation, rotation: rot};
+            console.log(boxMap[i]);
             x += incrementer;
             if(x >= width) {
-                rot = "inverse";
-                incrementer = -1;
-                y--;
-            }
-            else if(x <= 0) {
                 rot = "normal";
+                incrementer = -1;
+                x--; //compensate "overshoot" (reset from width to width-1 (start at 0))
+                y--; //go one row higher
+            }
+            else if(x < 0) {
+                rot = "inverse";
                 incrementer = 1;
+                x++; //compensate "overshoot"
                 y--;
             }
-
         }
     };
 
@@ -83,8 +84,10 @@ module.exports = function (options) {
         
     };
 
+
+
     var validatePixel = function (pixel) {
-        return !!(pixel != undefined &&
+        return (pixel != undefined &&
         pixel.position != undefined &&
         pixel.position.x != undefined &&
         pixel.position.y != undefined &&
@@ -94,17 +97,13 @@ module.exports = function (options) {
         pixel.color.blue != undefined);
     };
 
+
     function setPixel(pixel) {
-        if (!validatePixel(pixel)) { return {error: ["pixel is not valid"]}; }
+        if (!validatePixel(pixel)) { return {success: false, error: ["pixel is not valid"]}; }
 
-        var existing = pixels.filter(function(item) {
-           return item.x === pixel.x && item.y === pixel.y;
-        });
-
-        if (existing)
-           existing.color = pixel.color;
-        else
-         pixels.push(pixel);
+        var arrIndex = (pixel.position.y * width) + pixel.position.x;
+        pixels[arrIndex] = [pixel.color.red, pixel.color.green, pixel.color.blue];
+        return {success: true};
     };
 
     function setList() {
