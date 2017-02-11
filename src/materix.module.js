@@ -35,16 +35,27 @@ module.exports = function (options) {
 
     };
 
+    function rotate2dArray(arr) { //only does 180° TODO: implement 90° turns for portrait
+        var newArr = arr.slice(0); //need slice for copying array instead of referencing
+        newArr.reverse();
+        newArr.forEach((elem, i) => {
+            newArr[i] = arr[i].slice(0);
+            newArr[i].reverse();
+        });
+        return newArr;
+    }
+
     var pixels = [];
     var boxMap = [];
     var ledMap = [];
     var width = 0, height = 0;
     var pixelWidth = 0, pixelHeight = 0;
+    var boxPixelWidth = 0, boxPixelHeight = 0;
     const serpentine = [
-        15, 16, 17, 18, 19,
-        14, 13, 12, 11, 10,
-         5,  6,  7,  8,  9,
-         4,  3,  2,  1,  0
+        [ 19, 12, 11,  4,  3, ],
+        [ 18, 13, 10,  5,  2, ],
+        [ 17, 14,  9,  6,  1, ],
+        [ 16, 15,  8,  7,  0  ],
     ];
 
     var constructor = function (config) {
@@ -54,21 +65,31 @@ module.exports = function (options) {
 
         width = config.width;
         height = config.height;
-        pixelWidth = (config.orientation == "landscape") ? config.width * 5 : config.width * 4; //generate pixelWidth (x) & pixelHeight (y)
-        pixelHeight = (config.orientation == "landscape") ? config.height * 4 : config.height * 5;
+        boxPixelWidth = (config.orientation == "landscape") ? 5 : 4;
+        boxPixelHeight = (config.orientation == "landscape") ? 4 : 5;
+        pixelWidth = config.width * boxPixelWidth; //generate pixelWidth (x) & pixelHeight (y)
+        pixelHeight = config.height * boxPixelHeight;
+
 
         //fill pixel array with black
-        for(var i = 0; i < pixelWidth*pixelHeight; i++) {
-            pixels[i] = [0, 0, 0];
+        for(var y = 0; y < pixelHeight; y++) {
+            pixels[y] = [];
+            for(var x = 0; x < pixelWidth; x++) {
+                pixels[y][x] = [0, 0, 0];
+            }
+
         }
 
         //generate boxMap
+        for(var y = 0; y < height; y++) { //initialize 2D Array
+            boxMap[y] = [];
+        }
         var y = height - 1;
         var x = width - 1;
         var rot = "normal";
         var incrementer = -1;
         for(var i = 0; i < width*height; i++) {
-            boxMap[i] = {position: {x: x, y:y}, orientation: config.orientation, rotation: rot};
+            boxMap[y][x] = {position: i, orientation: config.orientation, rotation: rot};
             x += incrementer;
             if(x >= width) {
                 rot = "normal";
@@ -85,22 +106,39 @@ module.exports = function (options) {
         }
 
         //generate ledMap
+        for(var y = 0; y < pixelHeight; y++) { //initialize 2D Array
+            ledMap[y] = [];
+        }
+        for(var boxY = 0; boxY < boxMap.length; boxY++) {
+            for(var boxX = 0; boxX < boxMap[0].length; boxX++) {
+                var curBox = boxMap[boxY][boxX];
+                var boxOffsetPos = curBox.position * 20;
+                var boxOffsetX = boxX*boxPixelWidth;
+                var boxOffsetY = boxY*boxPixelHeight;
 
-        for(var box = 0; box < boxMap.length; i++) {
+                if(curBox.orientation === 'portrait') throw new Error('portrait orientation of boxes is not implemented yet'); //TODO: implement portrait orientation
+                var rotationCount = (curBox.orientation == 'portrait') + (curBox.rotation == 'inverse')*2; //how many times to rotate the serpentine
+                if (rotationCount == 0) //crudely implemented until portrait support
+                    var pattern = serpentine;
+                else if (rotationCount == 2)
+                    var pattern = rotate2dArray(serpentine);
+
+                for(var ledY = 0; ledY < pattern.length; ledY++) { //loop through serpentine pattern inside a box
+                    for(var ledX = 0; ledX < pattern[0].length; ledX++) {
+                        ledMap[boxOffsetY + ledY][boxOffsetX + ledX] = boxOffsetPos + pattern[ledY][ledX];
+                    }
+                }
+            }
+        }
+
+        //console.log(boxMap.length);
+        /*for(var box = 0; box < boxMap.length; box++) {
             //generate serpentine map (or load from constant)
             //and use offset for led
             var pattern;
             ledMap[box*20];
-        }
+        }*/
     };
-
-    function flatToXY(flatVal) {
-        return {x: flatVal % width, y: flatVal / width};
-    }
-
-    function xyToFlat(x, y) {
-        return y*width+x;
-    }
 
 
     function send() {
@@ -125,9 +163,9 @@ module.exports = function (options) {
     function setPixel(pixel) {
         if (!validatePixel(pixel))
             throw new Error('pixel is not valid');
-
-        var arrIndex = (pixel.position.y * width) + pixel.position.x;
-        pixels[arrIndex] = [pixel.color.red, pixel.color.green, pixel.color.blue];
+        var pos = pixel.position;
+        var color = pixel.color;
+        pixels[pos.y][pos.x] = [color.red, color.green, color.blue];
     };
 
     function setList() {
@@ -147,5 +185,6 @@ module.exports = function (options) {
         getWidth: function() { return width; },
         getHeight: function() { return height; },
         getPixels: function() { return pixels; },
+        getLedMap: () => ledMap,
     };
 };
