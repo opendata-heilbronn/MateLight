@@ -21,9 +21,7 @@ void parseBuffer()
   for (byte i = 0; i < 60; i++)
   {
     leds[i/3][i%3] = inputBuffer[i];
-    //Serial.print(inputBuffer[i], HEX);
   }
-  //Serial.println();
 }
 
 
@@ -46,20 +44,6 @@ void loop() {
     }
     lastPacket = micros();
   }
-  
-  /*while (Serial.available()) { //this method swallows bytes if they come in too fast, a delay of 12us is needed between each byte to circumvent this
-    lastPacket = micros();
-    unsigned char incomingByte = Serial.read();
-    if(inCounter < 60)
-    {
-      inputBuffer[inCounter] = incomingByte;
-      inCounter++;
-    }
-    else
-    {
-      Serial.write(incomingByte);
-    }
-  }*/
 
   if(micros() - lastPacket > timeout && inCounter > 0)
   {
