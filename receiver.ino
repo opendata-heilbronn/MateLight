@@ -29,7 +29,25 @@ void parseBuffer()
 
 
 void loop() {
-  while (Serial.available()) {
+  if(Serial.available()) //this method _should_(tm) be a better way of handling high speed Serial input without swallowing bytes
+  {
+    for(byte i = 0; i < Serial.available(); i++)
+    {
+      unsigned char incomingByte = Serial.read();
+      if(inCounter < 60)
+      {
+        inputBuffer[inCounter] = incomingByte;
+        inCounter++;
+      }
+      else
+      {
+        Serial.write(incomingByte);
+      }
+    }
+    lastPacket = micros();
+  }
+  
+  /*while (Serial.available()) { //this method swallows bytes if they come in too fast, a delay of 12us is needed between each byte to circumvent this
     lastPacket = micros();
     unsigned char incomingByte = Serial.read();
     if(inCounter < 60)
@@ -41,7 +59,7 @@ void loop() {
     {
       Serial.write(incomingByte);
     }
-  }
+  }*/
 
   if(micros() - lastPacket > timeout && inCounter > 0)
   {
