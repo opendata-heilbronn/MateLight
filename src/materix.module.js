@@ -45,6 +45,7 @@ module.exports = function (options) {
         return newArr;
     }
 
+    var handler = null;
     var pixels = [];
     var boxMap = [];
     var ledMap = [];
@@ -62,7 +63,9 @@ module.exports = function (options) {
         if (!config.width) throw new Error("Missing width in config.");
         if (!config.height) throw new Error("Missing height in config.");
         if (!config.orientation) throw new Error("Missing orientation in config.");
+        if (!config.handler) throw new Error("No Materix Hardware handler was supplied.");
 
+        handler = config.handler;
         width = config.width;
         height = config.height;
         boxPixelWidth = (config.orientation == "landscape") ? 5 : 4;
@@ -110,7 +113,7 @@ module.exports = function (options) {
             ledMap[y] = [];
         }
         for(var boxY = 0; boxY < boxMap.length; boxY++) {
-            for(var boxX = 0; boxX < boxMap[0].length; boxX++) {
+            for(var boxX = 0; boxX < boxMap[boxY].length; boxX++) {
                 var curBox = boxMap[boxY][boxX];
                 var boxOffsetPos = curBox.position * 20;
                 var boxOffsetX = boxX*boxPixelWidth;
@@ -124,26 +127,30 @@ module.exports = function (options) {
                     var pattern = rotate2dArray(serpentine);
 
                 for(var ledY = 0; ledY < pattern.length; ledY++) { //loop through serpentine pattern inside a box
-                    for(var ledX = 0; ledX < pattern[0].length; ledX++) {
+                    for(var ledX = 0; ledX < pattern[ledY].length; ledX++) {
                         ledMap[boxOffsetY + ledY][boxOffsetX + ledX] = boxOffsetPos + pattern[ledY][ledX];
                     }
                 }
             }
         }
-
-        //console.log(boxMap.length);
-        /*for(var box = 0; box < boxMap.length; box++) {
-            //generate serpentine map (or load from constant)
-            //and use offset for led
-            var pattern;
-            ledMap[box*20];
-        }*/
     };
 
 
     function send() {
         //send data out to hardware
         //TODO: crunch data (pixel data to led data with respect to cabling)
+        var rawData = []
+        for(var y = 0; y < ledMap.length; y++) {
+            for(var x = 0; x < ledMap[y].length; x++) {
+                var ledId = ledMap[y][x];
+                var pixel = pixels[y][x];
+                for(var i = 0; i < 3; i++) {
+                    rawData[ledId*3 + i] = pixel[i];
+                }
+            }
+        }
+        handler.sendPixels(rawData);
+
     };
 
 

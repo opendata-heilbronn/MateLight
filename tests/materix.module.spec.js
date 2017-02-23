@@ -2,6 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var Materix = require('./../src/materix.module');
 const Pixel = require('../src/models/pixel.model');
+var Hardware = require('./../src/materixHardware.module');
 
 describe('Materix Module', function () {
     var materix = null;
@@ -23,7 +24,8 @@ describe('Materix Module', function () {
 
 
     beforeEach(function () {
-        materix = new Materix({width: width, height: height, orientation: "landscape"});
+        var hardware = new Hardware({serialDevice: '/dev/serial0', baudRate: 1000000});
+        materix = new Materix({width: width, height: height, orientation: "landscape", handler: hardware});
     });
 
     it('should have an instance', function () {
@@ -61,8 +63,17 @@ describe('Materix Module', function () {
     });
 
     it('should generate correct led mapping', function () {
-        var shoudMap = JSON.stringify(ledMap);
+        var shouldMap = JSON.stringify(ledMap);
         var isMap = JSON.stringify(materix.getLedMap());
-        expect(isMap).to.equal(shoudMap);
+        expect(isMap).to.equal(shouldMap);
     });
+
+    it('should send out the correct data', function() {
+        //TODO: implement
+        /*for(var i = 0; i < 60; i++) {
+            materix.setPixel({position: {x: i%10, y: Math.floor(i/10)}, color: {red: i*3, green: i*3+1, blue: i*3+2}});
+
+        }
+        materix.send();*/
+    })
 });
