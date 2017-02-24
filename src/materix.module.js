@@ -35,16 +35,6 @@ module.exports = function (options) {
 
     };
 
-    function rotate2dArray(arr) { //only does 180° TODO: implement 90° turns for portrait
-        var newArr = arr.slice(0); //need slice for copying array instead of referencing
-        newArr.reverse();
-        newArr.forEach((elem, i) => {
-            newArr[i] = arr[i].slice(0);
-            newArr[i].reverse();
-        });
-        return newArr;
-    }
-
     var handler = null;
     var pixels = [];
     var boxMap = [];
@@ -53,10 +43,20 @@ module.exports = function (options) {
     var pixelWidth = 0, pixelHeight = 0;
     var boxPixelWidth = 0, boxPixelHeight = 0;
     const serpentine = [
-        [ 19, 12, 11,  4,  3, ],
-        [ 18, 13, 10,  5,  2, ],
-        [ 17, 14,  9,  6,  1, ],
-        [ 16, 15,  8,  7,  0  ],
+        [
+            [ 19, 12, 11,  4,  3, ],
+            [ 18, 13, 10,  5,  2, ],
+            [ 17, 14,  9,  6,  1, ],
+            [ 16, 15,  8,  7,  0  ],
+        ],
+        [], //vertical order
+        [
+            [  0,  7,  8, 15, 16 ],
+            [  1,  6,  9, 14, 17 ],
+            [  2,  5, 10, 13, 18 ],
+            [  3,  4, 11, 12, 19 ],
+        ],
+        [], //vertical order
     ];
 
     var constructor = function (config) {
@@ -121,10 +121,7 @@ module.exports = function (options) {
 
                 if(curBox.orientation === 'portrait') throw new Error('portrait orientation of boxes is not implemented yet'); //TODO: implement portrait orientation
                 var rotationCount = (curBox.orientation == 'portrait') + (curBox.rotation == 'inverse')*2; //how many times to rotate the serpentine
-                if (rotationCount == 0) //crudely implemented until portrait support
-                    var pattern = serpentine;
-                else if (rotationCount == 2)
-                    var pattern = rotate2dArray(serpentine);
+                var pattern = serpentine[rotationCount];
 
                 for(var ledY = 0; ledY < pattern.length; ledY++) { //loop through serpentine pattern inside a box
                     for(var ledX = 0; ledX < pattern[ledY].length; ledX++) {

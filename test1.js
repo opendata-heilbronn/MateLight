@@ -8,8 +8,7 @@ var materix = new Materix({width: 4, height: 2, orientation: "landscape", handle
 var keepaliveTimeout = setTimeout(function() { //keep the script running
     console.log("exiting");
     hardware.close();
-}, 10000);
-
+}, 30000);
 setTimeout(function() {
     materix.setPixel(new Pixel({position: {x: 0, y: 0}, color: {red: 0, green: 0, blue: 255}}));
     materix.setPixel(new Pixel({position: {x: 1, y: 1}, color: {red: 0, green: 255, blue: 0}}));
@@ -21,8 +20,8 @@ setTimeout(function() {
         materix.send();
         if(i == 159) clearInterval(interval);
         i++;
-    }, 15);
+    }, 50);
 
-}, 1000);
+}, 100);
 
 
