@@ -12,7 +12,7 @@ const int timeout = 500;
 CRGB leds[NUM_LEDS];
 
 void setup() {
-  Serial.begin(1000000);
+  Serial.begin(500000);
   FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUM_LEDS);
 }
 
