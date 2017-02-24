@@ -150,33 +150,16 @@ module.exports = function (options) {
 
     };
 
-
-
-    var validatePixel = function (pixel) {
-        return (pixel != undefined &&
-        pixel.position != undefined &&
-        pixel.position.x != undefined &&
-        pixel.position.y != undefined &&
-        pixel.color != undefined &&
-        pixel.color.red != undefined &&
-        pixel.color.green != undefined &&
-        pixel.color.blue != undefined);
-    };
-
-
-    function setPixel(pixel) {
-        if (!validatePixel(pixel))
-            throw new Error('pixel is not valid');
-        var pos = pixel.position;
-        var color = pixel.color;
-        pixels[pos.y][pos.x] = [color.red, color.green, color.blue];
+    function setPixel(x,y, color) {
+        pixels[y][x] = color;
     };
 
     function setList() {
-
+        //TODO: implement
     };
 
     function setArray() {
+        //TODO: implement
     };
 
     constructor(options);
