@@ -7,17 +7,17 @@ const size = {
     y: 8
 };
 
-var hardware = new Hardware({serialDevice: '/dev/ttyUSB0', baudRate: 500000});
-var materix = new Materix({width: 4, height: 2, orientation: "landscape", handler: hardware});
+var hardware = new Hardware({ serialDevice: '/dev/ttyUSB0', baudRate: 500000 });
+var materix = new Materix({ width: 4, height: 2, orientation: "landscape", handler: hardware });
 
 var Jimp = require("jimp");
 
 var imgPath = "./assets/pattern.png";
 
-setTimeout(function() {
+setTimeout(function () {
 
     Jimp.read(imgPath).then(function (image) {
-        
+
         for (var x = 0; x < size.x; x++) {
             for (var y = 0; y < size.y; y++) {
                 var color = Jimp.intToRGBA(image.getPixelColor(x, y));
@@ -25,9 +25,12 @@ setTimeout(function() {
             }
         }
 
-        console.log("sending");
-        materix.send();
-        
+        setTimeout(function () {
+
+            console.log("sending");
+            materix.send();
+        }, 500);
+
 
     }).catch(function (err) {
         console.error(err);
