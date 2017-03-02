@@ -16,21 +16,20 @@ var imgPath = "./assets/pattern.png";
 
 setTimeout(function() {
 
-Jimp.read(imgPath).then(function (image) {
-    
-    for (var x = 0; x < size.x; x++) {
-        for (var y = 0; y < size.y; y++) {
-            var color = Jimp.intToRGBA(image.getPixelColor(x, y));
-            
-            console.log(JSON.stringify(color));
-            materix.setPixel(x, y, [color.r, color.g, color.b]);
+    Jimp.read(imgPath).then(function (image) {
+        
+        for (var x = 0; x < size.x; x++) {
+            for (var y = 0; y < size.y; y++) {
+                var color = Jimp.intToRGBA(image.getPixelColor(x, y));
+                materix.setPixel(x, y, [color.r, color.g, color.b]);
+            }
         }
-    }
 
-    materix.send();
-    
+        console.log("sending");
+        materix.send();
+        
 
-}).catch(function (err) {
-    console.error(err);
-});
+    }).catch(function (err) {
+        console.error(err);
+    });
 }, 100);
