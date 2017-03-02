@@ -3,8 +3,8 @@ const Hardware = require('./src/materixHardware.module');
 const Pixel = require('./src/models/pixel.model');
 
 const size = {
-    x: 20,
-    y: 8
+    x: 15,
+    y: 12
 };
 
 var hardware = new Hardware({ serialDevice: '/dev/ttyUSB0', baudRate: 500000 });
