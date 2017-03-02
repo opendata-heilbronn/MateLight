@@ -29,6 +29,7 @@ setTimeout(function () {
 
             console.log("sending");
             materix.send();
+            materix.send();
         }, 500);
 
 
