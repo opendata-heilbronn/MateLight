@@ -4,7 +4,6 @@ var tickTimeout;
 var setPixelMethod, updateMethod;
 
 function constructor(opts) {
-    console.log(opts);
     if(opts.setPixelMethod == undefined) throw new Error('no setPixel method supplied');
     if(opts.updateMethod == undefined) throw new Error('no update method supplied');
 
