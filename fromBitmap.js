@@ -14,6 +14,10 @@ var Jimp = require("jimp");
 
 var imgPath = "./assets/pattern.png";
 
+
+var on = false;
+
+
 setTimeout(function () {
 
     Jimp.read(imgPath).then(function (image) {
@@ -36,4 +40,4 @@ setTimeout(function () {
     }).catch(function (err) {
         console.error(err);
     });
-}, 100);
+}, 3000);
