@@ -12,7 +12,7 @@ var materix = new Materix({width: 4, height: 2, orientation: "landscape", handle
 
 var Jimp = require("jimp");
 
-var imgPath = "./assets/jh.png";
+var imgPath = "./assets/pattern.png";
 
 setTimeout(function() {
 
