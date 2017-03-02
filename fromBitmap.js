@@ -7,7 +7,7 @@ const size = {
     y: 8
 };
 
-var hardware = new Hardware({serialDevice: 'COM11', baudRate: 500000});
+var hardware = new Hardware({serialDevice: '/dev/ttyUSB0', baudRate: 500000});
 var materix = new Materix({width: 4, height: 2, orientation: "landscape", handler: hardware});
 
 var Jimp = require("jimp");
