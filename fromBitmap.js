@@ -3,16 +3,16 @@ const Hardware = require('./src/materixHardware.module');
 const Pixel = require('./src/models/pixel.model');
 
 const size = {
-    x: 20,
-    y: 8
+    x: 15,
+    y: 12
 };
 
 var hardware = new Hardware({ serialDevice: '/dev/ttyUSB0', baudRate: 500000 });
-var materix = new Materix({ width: 4, height: 2, orientation: "landscape", handler: hardware });
+var materix = new Materix({ width: 3, height: 3, orientation: "landscape", handler: hardware });
 
 var Jimp = require("jimp");
 
-var imgPath = "./assets/pattern.png";
+var imgPath = "./assets/cowo.png";
 
 
 var on = false;
