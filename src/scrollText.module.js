@@ -1,7 +1,7 @@
 const font = require('./font');
 
 var tickTimeout;
-var setPixelMethod, updateMethod;
+var setPixelMethod, updateMethod, callback;
 
 function constructor(opts) {
     if(opts.setPixelMethod == undefined) throw new Error('no setPixel method supplied');
@@ -9,6 +9,7 @@ function constructor(opts) {
 
     setPixelMethod = opts.setPixelMethod;
     updateMethod = opts.updateMethod;
+    callback = opts.onEnd;
 }
 
 function setText(conf) {
@@ -65,6 +66,7 @@ function scrollTick(conf) {
         }, conf.scrollSpeed);
     } else {
         //materix.stop(); //only needed for clean stopping of the simulation (not needed for real MATErix) | TODO: Remove before prod
+        if(callback) callback();
     }
 }
 
