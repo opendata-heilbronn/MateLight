@@ -6,13 +6,13 @@ const Pixel = require('./src/models/pixel.model');
 var hardware = new Hardware({serialDevice: '/dev/ttyUSB0', baudRate: 500000});
 var width = 3, height = 4;
 var materix = new Materix({width: width, height: height, orientation: "landscape", handler: hardware});
-var scrollText = new ScrollText({setPixelMethod: materix.setPixel, updateMethod: materix.send, onEnd: ()=>{console.log("done")}});
+var scrollText = new ScrollText({setPixelMethod: materix.setPixel, updateMethod: materix.send, onEnd: scroll});
 
 var params = process.argv;
 params.shift(); //remove first two elements
 params.shift();
 
-setTimeout(function(){
+function scroll() {
     for(var y = 0; y < height*4; y++)
         for(var x = 0; x < width*5; x++)
             materix.setPixel(x, y, [0, 0, 32]);
@@ -25,4 +25,6 @@ setTimeout(function(){
         textColor: [255, 0, 0],
         backColor: [0, 0, 32]
     });
-}, 100);
+}
+
+setTimeout(scroll, 100);
