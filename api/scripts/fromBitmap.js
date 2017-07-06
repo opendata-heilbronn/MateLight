@@ -37,10 +37,14 @@ setTimeout(function () {
 
             image = image.resize(size.x, size.y);
 
-            for (var x = 0; x < size.x; x++) {
-                for (var y = 0; y < size.y; y++) {
-                    var color = Jimp.intToRGBA(image.getPixelColor(x, y));
-                    materix.setPixel(x, y, [color.r, color.g, color.b]);
+            for (var x = 0; x < materix.getHeight(); x++) {
+                for (var y = 0; y < materix.getWidth(); y++) {
+                    try {
+                        var color = Jimp.intToRGBA(image.getPixelColor(x, y));
+                        materix.setPixel(x, y, [color.r, color.g, color.b]);
+                    } catch(err) {
+
+                    }
                 }
             }
 
