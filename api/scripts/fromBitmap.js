@@ -37,6 +37,8 @@ setTimeout(function () {
 
             image = image.resize(size.x, size.y);
 
+            var 
+
             for (var x = 0; x < materix.getHeight(); x++) {
                 for (var y = 0; y < materix.getWidth(); y++) {
                     try {

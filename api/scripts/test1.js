@@ -1,6 +1,6 @@
-const Materix = require('./src/materix.module');
-const Hardware = require('./src/materixHardware.module');
-const Pixel = require('./src/models/pixel.model');
+const Materix = require('./../materix.module');
+const Hardware = require('./../materixHardware.module');
+const Pixel = require('./../models/pixel.model');
 
 var hardware = new Hardware({serialDevice: 'COM11', baudRate: 500000});
 var materix = new Materix({width: 4, height: 2, orientation: "landscape", handler: hardware});
