@@ -14,7 +14,7 @@ setTimeout(function() {
     var interval = setInterval(function(){
         materix.setPixel(i%20, Math.floor(i/20), [(i%3==0)*255, (i%3==1)*255, (i%3==2)*255]);
         materix.send();
-        if(i == 159) clearInterval(interval);
+        if(i == 240) clearInterval(interval);
         i++;
     }, 50);
 }, 100);
