@@ -34,7 +34,7 @@ function scroll() {
         for(var x = 0; x < width*5; x++)
             materix.setPixel(x, y, [0, 0, 32]);
     scrollText.setText({
-        text: params.join(' '),
+        text: options.text,
         startY: 0,
         endX: 14,
         //scrollSpeed: 68,
