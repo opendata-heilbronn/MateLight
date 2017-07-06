@@ -10,6 +10,9 @@ const optionDefinitions = [
 
 const options = commandLineArgs(optionDefinitions);
 
+console.log(options);
+
+
 // ---------------------------------------------------------------------------
 
 const Materix = require('./../materix.module');
@@ -33,7 +36,7 @@ setTimeout(function () {
     setInterval(function () {
         Jimp.read(options.url).then(function (image) {
 
-            image.resize(size.x, size.y);
+            image = image.resize(size.x, size.y);
 
             for (var x = 0; x < size.x; x++) {
                 for (var y = 0; y < size.y - offset; y++) {

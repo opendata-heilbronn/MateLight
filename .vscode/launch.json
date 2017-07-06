@@ -8,8 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/fromBitmap.js",
-            "cwd": "${workspaceRoot}"
+            "program": "${workspaceRoot}/api/scripts/fromBitmap.js",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                " -w=4 -h=3 -u=https://raw.githubusercontent.com/matelighthn/matelight-pi/master/assets/jh.png -d=/dev/ttyUSB0 -o=landscape"
+            ]
         },
         {
             "type": "node",
