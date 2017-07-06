@@ -30,7 +30,6 @@ var materix = new Materix({ width: options.width, height: options.height, orient
 var Jimp = require("jimp");
 
 var on = false;
-var offset = 0; //tmp
 
 setTimeout(function () {
     setInterval(function () {
@@ -39,8 +38,8 @@ setTimeout(function () {
             image = image.resize(size.x, size.y);
 
             for (var x = 0; x < size.x; x++) {
-                for (var y = 0; y < size.y - offset; y++) {
-                    var color = Jimp.intToRGBA(image.getPixelColor(x, y + offset));
+                for (var y = 0; y < size.y; y++) {
+                    var color = Jimp.intToRGBA(image.getPixelColor(x, y));
                     materix.setPixel(x, y, [color.r, color.g, color.b]);
                 }
             }
@@ -50,6 +49,5 @@ setTimeout(function () {
         }).catch(function (err) {
             console.error(err);
         });
-        offset = offset ? 0 : 1; //toggles between 0 and 1
     }, 500);
 }, 3000);
