@@ -2,7 +2,7 @@ const Materix = require('./../materix.module');
 const Hardware = require('./../materixHardware.module');
 const Pixel = require('./../models/pixel.model');
 
-var hardware = new Hardware({serialDevice: 'COM11', baudRate: 500000});
+var hardware = new Hardware({serialDevice: '/dev/ttyUSB0', baudRate: 500000});
 var materix = new Materix({width: 4, height: 3, orientation: "landscape", handler: hardware});
 
 setTimeout(function() {
