@@ -1,11 +1,28 @@
-const Materix = require('./src/materix.module');
-const Hardware = require('./src/materixHardware.module');
-const ScrollText = require('./src/scrollText.module');
-const Pixel = require('./src/models/pixel.model');
+const commandLineArgs = require('command-line-args');
 
-var hardware = new Hardware({serialDevice: '/dev/ttyUSB0', baudRate: 500000});
-var width = 3, height = 4;
-var materix = new Materix({width: width, height: height, orientation: "landscape", handler: hardware});
+const optionDefinitions = [
+    { name: 'text', alias: 't', type: String },
+    { name: 'orientation', alias: 'o', type: String, defaultOption: 'landscape' },
+    { name: 'width', alias: 'w', type: Number },
+    { name: 'height', alias: 'h', type: Number },
+    { name: 'device', alias: 'd', type: String, defaultOption: '/dev/ttyUSB0' },
+];
+
+const options = commandLineArgs(optionDefinitions);
+
+console.log(options);
+
+
+// ---------------------------------------------------------------------------
+
+const Materix =     require('./../materix.module');
+const Hardware =    require('./../materixHardware.module');
+const ScrollText =  require('./../scrollText.module');
+const Pixel =       require('./../models/pixel.model');
+
+var hardware = new Hardware({serialDevice: options.device, baudRate: 500000});
+var width = options.width, height = options.height;
+var materix = new Materix({width: width, height: height, orientation: options.orientation, handler: hardware});
 var scrollText = new ScrollText({setPixelMethod: materix.setPixel, updateMethod: materix.send, onEnd: scroll});
 
 var params = process.argv;
