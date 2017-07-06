@@ -24,5 +24,8 @@
     "mocha": "^3.2.0",
     "nanotimer": "^0.3.14",
     "serialport": "^4.0.7"
+  },
+  "devDependencies": {
+    "command-line-args": "^4.0.6"
   }
 }
