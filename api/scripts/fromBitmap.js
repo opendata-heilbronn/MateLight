@@ -43,7 +43,7 @@ setTimeout(function () {
                         var color = Jimp.intToRGBA(image.getPixelColor(x, y));
                         materix.setPixel(x, y, [color.r, color.g, color.b]);
                     } catch(err) {
-
+                        console.error(err);
                     }
                 }
             }
