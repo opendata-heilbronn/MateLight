@@ -19,11 +19,6 @@ const Materix = require('./../materix.module');
 const Hardware = require('./../materixHardware.module');
 const Pixel = require('./../models/pixel.model');
 
-const size = {
-    x: options.orientation == 'landscape' ? 4 * options.height : 5 * options.height,
-    y: options.orientation == 'landscape' ? 5 * options.width : 4 * options.width
-};
-
 var hardware = new Hardware({ serialDevice: options.device, baudRate: 500000 });
 var materix = new Materix({ width: options.width, height: options.height, orientation: options.orientation, handler: hardware });
 
@@ -35,7 +30,7 @@ setTimeout(function () {
     setInterval(function () {
         Jimp.read(options.url).then(function (image) {
 
-            image = image.resize(size.x, size.y);
+            image = image.resize(materix.getWidth(), materix.getHeigth());
 
             for (var x = 0; x < materix.getWidth(); x++) {
                 for (var y = 0; y < materix.getHeigth(); y++) {
