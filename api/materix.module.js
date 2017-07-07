@@ -171,6 +171,8 @@ module.exports = function (options) {
         setArray: setArray,
         getWidth: function() { return width; },
         getHeight: function() { return height; },
+        getPixelWidth: function() { return pixelWidth; },
+        getPixelHeight: function() { return pixelHeight; },
         getPixels: function() { return pixels; },
         getLedMap: () => ledMap,
     };
