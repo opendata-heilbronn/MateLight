@@ -30,10 +30,10 @@ setTimeout(function () {
     setInterval(function () {
         Jimp.read(options.url).then(function (image) {
 
-            image = image.resize(materix.getWidth(), materix.getHeigth());
+            image = image.resize(materix.getWidth(), materix.getHeight());
 
             for (var x = 0; x < materix.getWidth(); x++) {
-                for (var y = 0; y < materix.getHeigth(); y++) {
+                for (var y = 0; y < materix.getHeight(); y++) {
                     try {
                         var color = Jimp.intToRGBA(image.getPixelColor(x, y));
                         materix.setPixel(x, y, [color.r, color.g, color.b]);
