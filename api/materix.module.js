@@ -1,4 +1,4 @@
- 
+
 module.exports = function (options) {
 
     var _sampleOptions = {
@@ -133,7 +133,7 @@ module.exports = function (options) {
     };
 
 
-    function send() {
+    function send(callback) {
         //send data out to hardware
         //TODO: crunch data (pixel data to led data with respect to cabling)
         var rawData = []
@@ -146,7 +146,7 @@ module.exports = function (options) {
                 }
             }
         }
-        handler.sendPixels(rawData);
+        handler.sendPixels(rawData, callback);
 
     };
 
