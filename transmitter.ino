@@ -14,7 +14,7 @@ unsigned char colors[24] = {
 
 
 void setup() {
-  Serial.begin(1000000);
+  Serial.begin(500000);
 }
 /* modes:
  * 1=strobo
@@ -25,7 +25,7 @@ void setup() {
  * 6=chasing dot
  * 7=fps
  */
-byte mode = 7; 
+byte mode = 6; 
 
 byte colCtr=0;
 unsigned int byteCounter = 0, frameCount = 0, fps = 0;
