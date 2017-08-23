@@ -35,12 +35,13 @@ function dataCbk(frame, peer) {
 }
 
 function sendCbk() {
-    lastSend = Date.now();
     setTimeout(send, 40); //workaround, should be only 1ms, but needs to be the frame time
 }
 
 function send() {
-    console.log('[' + new Date() + ']   Frame time: ' + String(Date.now() - lastSend) + "ms");
+    console.log('[' + new Date().toISOString() + ']   Frame time: ' + String(Date.now() - lastSend) + "ms");
+    lastSend = Date.now();
+
     for (let y = 0; y < frameBuffer.length; y++) {
         for (let x = 0; x < frameBuffer[0].length; x++) {
             setPixelMethod(x, y, frameOutputBuffer[y][x]);
