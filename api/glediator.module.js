@@ -1,6 +1,6 @@
 const artnet = require('./modules/artnet.module');
 
-var width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port;
+var width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend;
 function constructor(opts) {
     if (opts.setPixelMethod == undefined) throw new Error('no setPixel method supplied');
     if (opts.updateMethod == undefined) throw new Error('no update method supplied');
@@ -35,11 +35,12 @@ function dataCbk(frame, peer) {
 }
 
 function sendCbk() {
+    lastSend = Date.now();
     setTimeout(send, 40); //workaround, should be only 1ms, but needs to be the frame time
 }
 
 function send() {
-    console.log(new Date());
+    console.log('[' + new Date() + ']   Frame time: ' + String(Date.now() - lastSend) + "ms");
     for (let y = 0; y < frameBuffer.length; y++) {
         for (let x = 0; x < frameBuffer[0].length; x++) {
             setPixelMethod(x, y, frameOutputBuffer[y][x]);
