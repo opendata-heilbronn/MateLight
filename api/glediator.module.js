@@ -19,7 +19,7 @@ function constructor(opts) {
 }
 
 let frameBuffer = [];
-let frameOutputBufer = [];
+let frameOutputBuffer = [];
 
 function dataCbk(frame, peer) {
     let data = frame.data;
@@ -29,17 +29,20 @@ function dataCbk(frame, peer) {
         let y = Math.floor(i / pixelWidth + (frame.universe - 1) * boxPixelHeight); //universe number is equivalent to box row number (glediator config)
         frameBuffer[y][x] = color;
     }
+    if(frame.universe == height) {
+        frameOutputBuffer = JSON.parse(JSON.stringify(frameBuffer));
+    }
 }
 
 function sendCbk() {
-    setTimeout(send, 1);
+    setTimeout(send, 40); //workaround, should be only 1ms, but needs to be the frame time
 }
 
 function send() {
     console.log(new Date());
     for (let y = 0; y < frameBuffer.length; y++) {
         for (let x = 0; x < frameBuffer[0].length; x++) {
-            setPixelMethod(x, y, frameBuffer[y][x]);
+            setPixelMethod(x, y, frameOutputBuffer[y][x]);
         }
     }
     updateMethod(sendCbk);
@@ -49,8 +52,10 @@ function start() {
     artnet.listen(port, dataCbk);
     for (let y = 0; y < pixelHeight; y++) {
         frameBuffer[y] = [];
+        frameOutputBuffer[y] = [];
         for (let x = 0; x < pixelWidth; x++) {
             frameBuffer[y][x] = [0, 0, 0];
+            frameOutputBuffer[y][x] = [0, 0, 0];
         }
     }
     setTimeout(send, 100);
