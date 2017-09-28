@@ -1,0 +1,31 @@
+{
+  "name": "matelight-extreme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests --recursive --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harmoniemand/matelight-extreme.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harmoniemand/matelight-extreme/issues"
+  },
+  "homepage": "https://github.com/harmoniemand/matelight-extreme#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.15.3",
+    "get-pixels": "^3.3.0",
+    "jimp": "^0.2.27",
+    "mocha": "^3.2.0",
+    "nanotimer": "^0.3.14",
+    "serialport": "^4.0.7"
+  },
+  "devDependencies": {
+    "command-line-args": "^4.0.6"
+  }
+}
