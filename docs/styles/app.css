@@ -1,0 +1,144 @@
+@keyframes header_title_1 {
+     0%   {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes image {
+     0%   {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes header_title_main {
+     0%   {width: 0; opacity: 0;}
+    100% { width: 100%; opacity: 1;}
+}
+@keyframes header_title_hr {
+     0%   {width: 0; opacity: 1;}
+    100% { width: 90%; opacity: 1;}
+}
+
+/* The element to apply the animation to */
+div.headerimage {
+    background: url('/img/header.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 95%;
+
+    animation-name: image;
+    animation-duration: 2s;
+}
+
+div.headerimage div {
+    opacity: 0;
+    width: 0;
+    animation-fill-mode: forwards;
+    animation-name: header_title_main;
+    animation-delay: 1s;
+    animation-duration: 2s;
+}
+
+div.headerimage img {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: header_title_1;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    max-height: 40vh;
+}
+
+div.headerimage h2 {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: header_title_1;
+    animation-delay: 2s;
+    animation-duration: 2s;
+}
+
+
+div.headerimage hr {
+    opacity: 0;
+    width: 0;
+    animation-fill-mode: forwards;
+    animation-name: header_title_hr;
+    animation-delay: 1s;
+    animation-duration: 2s;
+}
+
+md-table-container td {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+#posts .post {
+    float: none;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+#posts .post .img {
+    width: 80px;
+    height: 80px;
+
+    left: 10px;
+    float: left;
+
+    background-position: center;
+    background-size: cover;
+
+    border-radius: 40px;
+    overflow: hidden;
+
+    border: solid 2px rgba(0,0,0,0.5);
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,1);
+}
+#posts .post .source {
+    position: absolute;
+    left: 33px;
+    color: white;
+    text-shadow: 0px 0px 3px black;
+}
+#posts .post .source span {
+    font-size: 7px;
+    height: 40px;
+    position: absolute;
+    width: 20px;
+    left: 0;
+    top: 0;
+    transform-origin: bottom center;
+}
+
+#posts .post .text {
+     margin-left: 100px;
+}
+
+#posts .post .text h4 {
+    margin-top: 5px;
+}
+
+.contributor {
+    margin-top: 20px;
+}
+
+.contributor div.img {
+    height: 70px;
+    max-height: 70px;
+    min-height: 70px;
+    width: 70px;
+    max-width: 70px;
+    min-width: 70px;
+    
+
+    border-radius: 35px;
+    box-shadow: #000 0px 0px 5px;
+
+    background-position: center;
+    background-size: cover;
+}
+
+.contributor div.info {
+    margin-left: 20px;
+    height: 70px;
+}
+
+.contributor div.info div.name {
+    font-weight: bold;
+}

@@ -1,0 +1,26 @@
+<md-table-container>
+<table md-table>
+    <thead md-head>
+        <tr md-row>
+            <td md-column>Datum</td>
+            <td md-column>Bezeichnung</td>
+            <td md-column>Menge</td>
+            <td md-column>Lieferant</td>
+            <td md-column>Materialkosten</td>
+            <td md-column>Versandkosten</td>
+        </tr>
+    </thead>
+    <tbody md-body>
+        <tr md-row ng-repeat="item in data">
+            <td md-cell>{{item.date}}</td>
+            <td md-cell>{{item.title}}</td>
+            <td md-cell>{{item.quantity}}</td>
+            <td md-cell>{{item.source}}</td>
+            <td md-cell>{{item.price}}</td>
+            <td md-cell>{{item.shipping}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+</md-table-container>

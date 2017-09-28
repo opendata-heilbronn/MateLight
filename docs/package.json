@@ -1,0 +1,23 @@
+{
+  "name": "matelighthn.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "http-server -p 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matelighthn/matelighthn.github.io.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matelighthn/matelighthn.github.io/issues"
+  },
+  "homepage": "https://github.com/matelighthn/matelighthn.github.io#readme",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}

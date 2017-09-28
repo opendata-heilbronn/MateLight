@@ -1,0 +1,25 @@
+---
+
+---
+
+<h3>Blog</h3>
+
+<div id="posts">
+  {% for post in site.posts %}
+
+    <a href="{{post.url}}">
+        <div class="post">
+            {% if post.timage %}
+            <div class="img" style="background-image: url({{post.timage}});'" /></div>
+            {% else %}
+            <div class="img" style="background-image: url(http://thecatapi.com/api/images/get?format=src&type=png);'" /></div>        
+            {% endif %}
+
+            <div class="text">
+                <h4>{{post.title}}</h4>
+                <p>{{post.caption | markdownify}}</p>
+            </div>
+        </div>
+    </a>
+  {% endfor %}
+</div>
