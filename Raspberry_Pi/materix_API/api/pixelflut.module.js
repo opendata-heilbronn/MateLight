@@ -45,6 +45,9 @@ function hexToColor(hexStr) {
 }
 
 function setColor(x, y, colorStr) {
+    if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHeight)
+        return;
+
     let color = hexToColor(colorStr);
     if (colorStr.length == 8) {
         alpha = color[3];
@@ -65,13 +68,11 @@ function setColor(x, y, colorStr) {
             color[i] = Math.floor((color[i] * alpha + t) / 255);
         }
     }
-    console.log(x, y, color, alpha);
     frameBuffer[y][x] = color;
 }
 
 
 function handlePFPacket(socket, packet) {
-    console.log(packet);
     parts = packet.split(' ');
 
     if (parts.length > 0) {
