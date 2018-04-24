@@ -33,11 +33,11 @@ function colorToHex(color) {
 }
 
 function hexToColor(hexStr) {
-    r = parseInt(hexStr.substring(0, 2), 16);
-    g = parseInt(hexStr.substring(2, 4), 16);
-    b = parseInt(hexStr.substring(4, 6), 16);
+    r = parseInt(hexStr.substring(0, 2), 16) || 0;
+    g = parseInt(hexStr.substring(2, 4), 16) || 0;
+    b = parseInt(hexStr.substring(4, 6), 16) || 0;
     if (hexStr.length === 8) {
-        a = parseInt(hexStr.substring(6, 8), 16);
+        a = parseInt(hexStr.substring(6, 8), 16) || 0;
         return [r, g, b, a];
     }
     else
