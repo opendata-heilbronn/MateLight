@@ -16,12 +16,13 @@ Some scripts have already been created. They are located at [Raspberry_Pi/materi
     - Takes ArtNet packages and displays them on the matelight
     - Every crate row is one ArtNet universe. The channels start in the top left and travel down line wise
     - This mapping has to be set up in gLEDiator, or any other ArtNet sender
+- pixelflut.js
+    - exposes a [Pixelflut](https://cccgoe.de/wiki/Pixelflut) server on port 1337
 
 Examples of how to launch the scripts can be found in the [scripts README](Raspberry_Pi/materix_API/api/scripts/README.md).
 
 
 ### Future plans
-- PixelFlut API
 - HTTP API
 - Create one central API that runs all the time and accepts input from multiple scripts
 
