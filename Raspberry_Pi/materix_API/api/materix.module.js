@@ -34,14 +34,7 @@ module.exports = function (options) {
         },
 
     };
-
-    var handler = null;
-    var pixels = [];
-    var boxMap = [];
-    var ledMap = [];
-    var width = 0, height = 0;
-    var pixelWidth = 0, pixelHeight = 0;
-    var boxPixelWidth = 0, boxPixelHeight = 0;
+    var gammaCorrection = 2.2;
     const serpentine = [
         [
             [ 19, 12, 11,  4,  3, ],
@@ -58,6 +51,14 @@ module.exports = function (options) {
         ],
         [], //vertical order
     ];
+    var handler = null;
+    var pixels = [];
+    var boxMap = [];
+    var ledMap = [];
+    var gammaLookup = [];
+    var width = 0, height = 0;
+    var pixelWidth = 0, pixelHeight = 0;
+    var boxPixelWidth = 0, boxPixelHeight = 0;
 
     var constructor = function (config) {
         if (!config.width) throw new Error("Missing width in config.");
@@ -72,6 +73,8 @@ module.exports = function (options) {
         boxPixelHeight = (config.orientation == "landscape") ? 4 : 5;
         pixelWidth = config.width * boxPixelWidth; //generate pixelWidth (x) & pixelHeight (y)
         pixelHeight = config.height * boxPixelHeight;
+
+        if(config.gamma) gammaCorrection = config.gamma;
 
 
         //fill pixel array with black
@@ -130,19 +133,23 @@ module.exports = function (options) {
                 }
             }
         }
+
+        //generate gamma lookup table
+        for(let i = 0; i < 256; i++) {
+            gammaLookup[i] = Math.round(Math.pow(i/255, gammaCorrection) * 255);
+        }
     };
 
 
     function send(callback) {
         //send data out to hardware
-        //TODO: crunch data (pixel data to led data with respect to cabling)
         var rawData = []
         for(var y = 0; y < ledMap.length; y++) {
             for(var x = 0; x < ledMap[y].length; x++) {
                 var ledId = ledMap[y][x];
                 var pixel = pixels[y][x];
                 for(var i = 0; i < 3; i++) {
-                    rawData[ledId*3 + i] = pixel[i];
+                    rawData[ledId*3 + i] = gammaLookup[pixel[i]];
                 }
             }
         }
