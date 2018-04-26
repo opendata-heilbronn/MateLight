@@ -3,7 +3,7 @@ const net = require('net');
 const frameTime = 40;
 
 let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend = 0,
-    server;
+    server, socket;
 let frameBuffer = [];
 
 function constructor(opts) {
@@ -115,13 +115,16 @@ function handlePFPacket(socket, packet) {
 function send() {
     console.log('[' + new Date().toISOString() + ']   Frame time: ' + String(Date.now() - lastSend) + "ms");
     lastSend = Date.now();
-
+    socket.pause();
     for (let y = 0; y < frameBuffer.length; y++) {
         for (let x = 0; x < frameBuffer[0].length; x++) {
             setPixelMethod(x, y, frameBuffer[y][x]);
         }
     }
-    updateMethod();
+    updateMethod(() => {
+        console.log("data sent");
+        socket.resume()
+    });
 }
 
 function start() {
@@ -131,16 +134,17 @@ function start() {
             frameBuffer[y][x] = [0, 0, 0];
         }
     }
-    server = net.createServer((socket) => {
-        socket.on('error', (err) => {
+    server = net.createServer((sock) => {
+        socket = sock;
+        sock.on('error', (err) => {
             console.log(err);
         });
-        socket.on('data', (data) => {
+        sock.on('data', (data) => {
             if (data) {
                 let packets = data.toString().replace('\r', '').split('\n');
                 packets.forEach((packet, i, arr) => {
                     if (i < arr.length - 1) { //don't process last packet because it's empty
-                        handlePFPacket(socket, packet);
+                        handlePFPacket(sock, packet);
                     }
                 });
             }
