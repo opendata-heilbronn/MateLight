@@ -2,8 +2,10 @@ const net = require('net');
 
 const frameTime = 40;
 
-let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend = 0, server;
+let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend = 0,
+    server;
 let frameBuffer = [];
+
 function constructor(opts) {
     if (opts.setPixelMethod == undefined) throw new Error('no setPixel method supplied');
     if (opts.updateMethod == undefined) throw new Error('no update method supplied');
@@ -41,8 +43,7 @@ function hexToColor(hexStr) {
     if (hexStr.length === 8) {
         a = parseInt(hexStr.substring(6, 8), 16) || 0;
         return [r, g, b, a];
-    }
-    else
+    } else
         return [r, g, b];
 }
 
@@ -54,8 +55,7 @@ function setColor(x, y, colorStr) {
     if (colorStr.length == 8) {
         alpha = color[3];
         color.pop(); //remove alpha from array
-    }
-    else if (colorStr.length == 6)
+    } else if (colorStr.length == 6)
         alpha = 255;
     else
         return;
@@ -89,29 +89,26 @@ function handlePFPacket(socket, packet) {
         if (cmd === 'SIZE') {
             socket.write('SIZE ' + pixelWidth + ' ' + pixelHeight + '\n');
         }
-    }
-    else if (parts.length === 3) {
+    } else if (parts.length === 3) {
         if (cmd === 'PX') {
             if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHeight)
                 return;
             try {
                 color = frameBuffer[y][x];
                 socket.write('PX ' + x + ' ' + y + ' ' + colorToHex(color) + '\n');
-            }
-            catch (e) {
+            } catch (e) {
                 console.log(e.message)
             }
-            
+
         }
-    }
-    else if (parts.length === 4) {
+    } else if (parts.length === 4) {
         if (cmd === 'PX') {
             colorStr = parts[3];
             setColor(x, y, colorStr);
         }
     }
 
-    if(Date.now() - lastSend > frameTime)
+    if (Date.now() - lastSend > frameTime)
         send();
 }
 
@@ -141,12 +138,19 @@ function start() {
         socket.on('data', (data) => {
             if (data) {
                 let packets = data.toString().replace('\r', '').split('\n');
-                packets.forEach(packet => handlePFPacket(socket, packet))
+                packets.forEach((packet, i, arr) => {
+                    if (i < arr.length - 1) { //don't process last packet because it's empty
+                        handlePFPacket(socket, packet);
+                    }
+                });
             }
         });
     });
 
-    server.listen({ host: '0.0.0.0', port: 1337 }, async () => {
+    server.listen({
+        host: '0.0.0.0',
+        port: 1337
+    }, async () => {
         console.log('Matelight Pixelflut Server started on ' + await getIPAddr() + ':' + 1337)
     });
 }
@@ -163,4 +167,3 @@ module.exports = function (opts) {
         close
     }
 }
-
