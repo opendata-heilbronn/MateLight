@@ -1,6 +1,8 @@
 const net = require('net');
 
-let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend, server;
+const frameTime = 40;
+
+let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend = 0, server;
 let frameBuffer = [];
 function constructor(opts) {
     if (opts.setPixelMethod == undefined) throw new Error('no setPixel method supplied');
@@ -108,10 +110,9 @@ function handlePFPacket(socket, packet) {
             setColor(x, y, colorStr);
         }
     }
-}
 
-function sendCbk() {
-    setTimeout(send, 40); //workaround, should be only 1ms, but needs to be the frame time
+    if(Date.now() - lastSend > frameTime)
+        send();
 }
 
 function send() {
@@ -123,7 +124,7 @@ function send() {
             setPixelMethod(x, y, frameBuffer[y][x]);
         }
     }
-    updateMethod(sendCbk);
+    updateMethod();
 }
 
 function start() {
@@ -147,7 +148,6 @@ function start() {
 
     server.listen({ host: '0.0.0.0', port: 1337 }, async () => {
         console.log('Matelight Pixelflut Server started on ' + await getIPAddr() + ':' + 1337)
-        setTimeout(send, 100);
     });
 }
 
