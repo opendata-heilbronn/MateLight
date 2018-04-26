@@ -90,8 +90,16 @@ function handlePFPacket(socket, packet) {
     }
     else if (parts.length === 3) {
         if (cmd === 'PX') {
-            color = frameBuffer[y][x];
-            socket.write('PX ' + x + ' ' + y + ' ' + colorToHex(color) + '\n');
+            if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHeight)
+                return;
+            try {
+                color = frameBuffer[y][x];
+                socket.write('PX ' + x + ' ' + y + ' ' + colorToHex(color) + '\n');
+            }
+            catch (e) {
+                console.log(e.message)
+            }
+            
         }
     }
     else if (parts.length === 4) {
@@ -127,7 +135,7 @@ function start() {
     }
     server = net.createServer((socket) => {
         socket.on('error', (err) => {
-            console.err(err);
+            console.log(err);
         });
         socket.on('data', (data) => {
             if (data) {
