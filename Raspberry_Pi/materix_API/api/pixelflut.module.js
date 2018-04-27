@@ -1,10 +1,9 @@
 const net = require('net');
 
-const frameTime = 40;
-
-let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend = 0,
-    server, socket;
+let width, height, pixelWidth, pixelHeight, boxPixelWidth, boxPixelHeight, setPixelMethod, updateMethod, callback, port, lastSend = Date.now(),
+    server, socket, avgFrameTime = 50;
 let frameBuffer = [];
+let sendTimeout = 1000; 
 
 function constructor(opts) {
     if (opts.setPixelMethod == undefined) throw new Error('no setPixel method supplied');
@@ -108,22 +107,24 @@ function handlePFPacket(socket, packet) {
         }
     }
 
-    if (Date.now() - lastSend > frameTime)
+    // if an error occurs at the send function, restart it
+    if (Date.now() - lastSend > sendTimeout)
         send();
 }
 
 function send() {
-    console.log('[' + new Date().toISOString() + ']   Frame time: ' + String(Date.now() - lastSend) + "ms");
+    console.log('[' + new Date().toISOString() + ']   Frame time: ' + String(Date.now() - lastSend) + "ms  // Avg: " + Math.floor(avgFrameTime) + "ms           ");
+    avgFrameTime = avgFrameTime * 0.99 + (Date.now() - lastSend) * 0.01;
     lastSend = Date.now();
-    socket.pause();
+    //socket.pause();
     for (let y = 0; y < frameBuffer.length; y++) {
         for (let x = 0; x < frameBuffer[0].length; x++) {
             setPixelMethod(x, y, frameBuffer[y][x]);
         }
     }
     updateMethod(() => {
-        console.log("data sent");
-        socket.resume()
+        //socket.resume()
+        setTimeout(send, 1)
     });
 }
 
@@ -156,6 +157,7 @@ function start() {
         port: 1337
     }, async () => {
         console.log('Matelight Pixelflut Server started on ' + await getIPAddr() + ':' + 1337)
+        send()
     });
 }
 
