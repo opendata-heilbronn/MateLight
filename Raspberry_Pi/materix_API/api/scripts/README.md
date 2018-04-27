@@ -6,7 +6,7 @@
 
 `node glediatorBridge.js -w 7 -h 3 -d /dev/ttyUSB0`
 
-`node testScroll_sim.js -w 10 -h 2 -t "hello world"`
+`node testScroll.js -w 10 -h 2 -t "hello world" -d sim`
 
 `node pixelflut.js -w 7 -h 3`
 
