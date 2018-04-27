@@ -77,7 +77,10 @@ module.exports = function (options) {
         console.log('\033[2J'); //clear screen
     };
 
-
+    process.on('SIGINT', () => {
+        console.log(colors.white);
+        process.exit();
+    });
 
     function getColoredChar(color) {
         let r = color[0], g = color[1], b = color[2];
@@ -116,7 +119,7 @@ module.exports = function (options) {
         printStr += '\n' + colors.white;
         console.log(printStr);
 
-        if(callback)
+        if (callback)
             callback();
     };
 
