@@ -28,7 +28,7 @@ else {
 }
 
 let width = options.width, height = options.height;
-let materix = new Materix({ width: width, height: height, orientation: options.orientation, handler: hardware });
+let materix = new Materix({ width: width, height: height, orientation: options.orientation, rotation: options.rotation, handler: hardware });
 
 module.exports = {
     materix: materix,
