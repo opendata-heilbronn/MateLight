@@ -2,6 +2,7 @@ const commandLineArgs = require('command-line-args');
 
 const optionDefinitions = [
     { name: 'orientation', alias: 'o', type: String, defaultValue: 'landscape' },
+    { name: 'rotation', alias: 'r', type: String, defaultValue: 'normal' },
     { name: 'width', alias: 'w', type: Number },
     { name: 'height', alias: 'h', type: Number },
     { name: 'device', alias: 'd', type: String, defaultValue: '/dev/ttyUSB0' },

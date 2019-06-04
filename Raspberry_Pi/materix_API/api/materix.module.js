@@ -90,26 +90,52 @@ module.exports = function (options) {
         for(var y = 0; y < height; y++) { //initialize 2D Array
             boxMap[y] = [];
         }
-        var y = height - 1;
-        var x = width - 1;
-        var rot = "normal";
-        var incrementer = -1;
-        for(var i = 0; i < width*height; i++) {
-            boxMap[y][x] = {position: i, orientation: config.orientation, rotation: rot};
-            x += incrementer;
-            if(x >= width) {
-                rot = "normal";
-                incrementer = -1;
-                x--; //compensate "overshoot" (reset from width to width-1 (start at 0))
-                y--; //go one row higher
+
+        var y, x, rot, incrementer;
+        if(config.rotation == "inverted") {
+            y = 0;
+            x = 0;
+            rot = "inverse";
+            incrementer = 1;
+            for(var i = 0; i < width*height; i++) {
+                boxMap[y][x] = {position: i, orientation: config.orientation, rotation: rot};
+                x += incrementer;
+                if(x >= width) {
+                    rot = "normal";
+                    incrementer = -1;
+                    x--; //compensate "overshoot" (reset from width to width-1 (start at 0))
+                    y++; //go one row lowe
+                }
+                else if(x < 0) {
+                    rot = "inverse";
+                    incrementer = 1;
+                    x++; //compensate "overshoot"
+                    y++;
+                }
             }
-            else if(x < 0) {
-                rot = "inverse";
-                incrementer = 1;
-                x++; //compensate "overshoot"
-                y--;
+        } else {
+            y = height - 1;
+            x = width - 1;
+            rot = "normal";
+            incrementer = -1;
+            for(var i = 0; i < width*height; i++) {
+                boxMap[y][x] = {position: i, orientation: config.orientation, rotation: rot};
+                x += incrementer;
+                if(x >= width) {
+                    rot = "normal";
+                    incrementer = -1;
+                    x--; //compensate "overshoot" (reset from width to width-1 (start at 0))
+                    y--; //go one row higher
+                }
+                else if(x < 0) {
+                    rot = "inverse";
+                    incrementer = 1;
+                    x++; //compensate "overshoot"
+                    y--;
+                }
             }
         }
+        
 
         //generate ledMap
         for(var y = 0; y < pixelHeight; y++) { //initialize 2D Array
