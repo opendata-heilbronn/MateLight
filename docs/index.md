@@ -1,4 +1,4 @@
-# Was ist das MateLight?</h2>
+# Was ist das MateLight?
 
 Das MateLight ist eine interaktive LED-Installation. Es besteht aus RGB-LEDs und Club-Mate-Kästen. 
 Damit ergibt sich ein Raster mit bunten Punkten. Also quasi ein Display.
@@ -10,37 +10,36 @@ eingesetzt werden. Außerdem ist es ein tolles Spielzeug für Programmier-Padawa
 und betrachte die bunt blinkende Welt.
        
        
-# Wo kann ich das MateLight sehen?</h2>
+# Wo kann ich das MateLight sehen?
  
 Auf der MakerFaire in Hannover
 
-Oder an jedem Coding-Donnerstag bei <a href="https://www.meetup.com/de-DE/codeforhn/">CodeFor-Heilbronn</a>.
+Oder an jedem Coding-Donnerstag im [Maker Space](https://makerspace.experimenta.science)
 
 
 # Made at code for Heilbronn</h2>
 
 <img src="/img/CodeForHeilbronn.svg" />
 
-Das MateLight wurde von den Teilnehmern der Coding-Abende bei <a href="http://codefor.de/heilbronn/">CodeFor Heilbronn</a>
-entwickelt und hergestellt.
+Das MateLight wurde von den Teilnehmern der Coding-Abende bei [CodeFor Heilbronn](https://codeforheilbronn.de/) entwickelt und hergestellt.
 
 
 # Contributors
 
-img/contributors/theVale98.jpg')"></div>
+img/contributors/theVale98.jpg
 * TheVale98
     * Hardware
 
-img/contributors/LeoDJ.jpg')"></div>
+img/contributors/LeoDJ.jpg
 * LeoDJ
     * Hardware, Software
 
-'img/contributors/Franz.jpg
+img/contributors/Franz.jpg
 
 * Franz
     * Hardware
 
-'img/contributors/harmoniemand.jpg')"></div>
+'img/contributors/harmoniemand.jpg
 * Jonathan
     * Software
 
