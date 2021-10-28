@@ -53,3 +53,46 @@ immer öfter.
 
 Außerdem kann das MateLight um coole neue Funktionen erweitert werden. Seien es Spiele oder der geplante Webservice.
 Dazu sollte man NodeJS oder Arduino (C++) programmieren können.
+
+
+# Wiring Instructions Step by Step
+Start with the following plywood plate:
+
+![](img/wiringStepByStep/step00.jpg)
+
+### Step 1
+Connect the 12V power passthrough cable
+
+![](img/wiringStepByStep/step01.jpg)
+
+### Step 2
+Connect the 12V power from the XLR input
+
+![](img/wiringStepByStep/step02.jpg)
+
+### Step 3
+Connect the regulated 5V to the Arduino 5V/VCC pin
+
+![](img/wiringStepByStep/step03.jpg)
+
+### Step 4
+Connect XLR data in and GND to Arduino RX and GND pins
+
+![](img/wiringStepByStep/step04.jpg)
+
+### Step 5
+Connect the Arduino TX pin to XLR data out
+
+![](img/wiringStepByStep/step05.jpg)
+
+### Step 6
+Connect the 5V power wires for the LEDs to the buck converter
+
+![](img/wiringStepByStep/step06.jpg)
+
+### Step 7
+Connect the LED data wire to Arduino pin 2
+![](img/wiringStepByStep/step07.jpg)
+
+### Step 8
+Connect the three open cables from step 7 to the input of LED string accordingly
