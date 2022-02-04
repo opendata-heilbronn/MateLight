@@ -23,11 +23,20 @@ let frameOutputBuffer = [];
 
 function dataCbk(frame, peer) {
     let data = frame.data;
+    if(frame.universe < 1 || frame.universe > height || frame.universe == undefined) {
+        return;
+    }
     for (let i = 0; i < boxPixelHeight * pixelWidth; i++) {
         let color = [data[i * 3], data[i * 3 + 1], data[i * 3 + 2]];
         let x = i % pixelWidth;
         let y = Math.floor(i / pixelWidth + (frame.universe - 1) * boxPixelHeight); //universe number is equivalent to box row number (glediator config)
-        frameBuffer[y][x] = color;
+        if(y >= 0 && y < frameBuffer.length) {
+            frameBuffer[y][x] = color;
+        }
+        else {
+            console.log("FAILED", y, frame);
+        }
+        
     }
     if(frame.universe == height) {
         frameOutputBuffer = JSON.parse(JSON.stringify(frameBuffer));

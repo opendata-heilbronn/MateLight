@@ -1,47 +1,37 @@
-const commandLineArgs = require('command-line-args');
+const ml = require('./_matelight');
+let materix = ml.materix, args = ml.args;
 
-const optionDefinitions = [
-    { name: 'text', alias: 't', type: String },
-    { name: 'orientation', alias: 'o', type: String, defaultOption: 'landscape' },
-    { name: 'width', alias: 'w', type: Number },
-    { name: 'height', alias: 'h', type: Number },
-    { name: 'device', alias: 'd', type: String, defaultOption: '/dev/ttyUSB0' },
-];
-
-const options = commandLineArgs(optionDefinitions);
-
-console.log(options);
-
-
-// ---------------------------------------------------------------------------
-
-const Materix = require('./../materix.module');
-const Hardware = require('./../materixHardware.module');
 const ScrollText = require('./../scrollText.module');
-const Pixel = require('./../models/pixel.model');
 
-var hardware = new Hardware({ serialDevice: options.device, baudRate: 500000 });
-var width = options.width, height = options.height;
-var materix = new Materix({ width: width, height: height, orientation: options.orientation, handler: hardware });
 var scrollText = new ScrollText({ setPixelMethod: materix.setPixel, updateMethod: materix.send, onEnd: scroll });
 
-var params = process.argv;
-params.shift(); //remove first two elements
-params.shift();
+if(!args.text) {
+    console.log('Error: no text paramter given.');
+    return;
+}
+
+function init() {
+for (var x = 0; x < args.width * 5; x++) {
+    for (var y = 0; y < args.height * 4; y++) {
+        materix.setPixel(x, y, [0, 64, 0])
+    }
+}
+}
 
 function scroll() {
-    for (var y = 0; y < height * 4; y++)
-        for (var x = 0; x < width * 5; x++)
+    for (var y = 0; y < args.height * 4; y++)
+        for (var x = 0; x < args.width * 5; x++)
             materix.setPixel(x, y, [0, 0, 32]);
     scrollText.setText({
-        text: options.text,
-        startY: 0,
-        endX: options.width * 5 -1,
+        text: args.text,
+        startY: 4,
+        endX: args.width * 5 -1,
         //scrollSpeed: 68,
-        scrollSpeed: 68,
-        textColor: [255, 0, 0],
-        backColor: [0, 0, 32]
+        scrollSpeed: 100,
+        textColor: [255, 255, 255],
+        backColor: [0, 64, 0]
     });
 }
 
-setTimeout(scroll, 100);
+setTimeout(scroll, 200);
+setTimeout(init, 150);

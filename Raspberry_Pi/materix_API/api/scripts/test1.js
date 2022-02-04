@@ -1,9 +1,5 @@
-const Materix = require('./../materix.module');
-const Hardware = require('./../materixHardware.module');
-const Pixel = require('./../models/pixel.model');
-
-var hardware = new Hardware({serialDevice: '/dev/ttyUSB0', baudRate: 500000});
-var materix = new Materix({width: 4, height: 3, orientation: "landscape", handler: hardware});
+const ml = require('./_matelight');
+let materix = ml.materix, args = ml.args;
 
 setTimeout(function() {
     materix.setPixel(0, 0, [255, 0, 0]);

@@ -1,9 +1,10 @@
 const ml = require('./_matelight');
 let materix = ml.materix, args = ml.args;
 
-const Glediator = require('./../glediator.module');
+const PixelFlut = require('./../pixelflut.module');
 
-let glediator = new Glediator({
+
+let pixelflut = new PixelFlut({
     width: args.width,
     height: args.height,
     orientation: args.orientation,
@@ -11,4 +12,4 @@ let glediator = new Glediator({
     updateMethod: materix.send
 });
 
-glediator.start();
+pixelflut.start();
