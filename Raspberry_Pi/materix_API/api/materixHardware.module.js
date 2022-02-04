@@ -26,7 +26,7 @@ function constructor(opts) {
 }
 
 function sendPixels(rawData, callback) { //accepts a flat byte array
-    if(port.isOpen()) {
+    if(port.isOpen) {
         port.write(rawData, function(err){ //TODO: check if works, maybe wants a buffer insetead of array
             if(err) {
                 throw new Error(err);
