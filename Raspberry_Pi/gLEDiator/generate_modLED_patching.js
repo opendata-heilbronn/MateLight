@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-let width = 3*5;
-let height = 7*4;
-let ip = '192.168.188.21';
+let width = 5*5;
+let height = 4*4;
+let ip = '192.168.1.41';
 let startingUniverse = 1;
-let outputFile = 'MateLight_3x7_patch_PixelBridge.txt';
+let outputFile = 'MateLight_5x4_patch_PixelBridge.txt';
 
 let numChannels = width * height * 3;
 let numUniverses = Math.ceil(numChannels / 510);
